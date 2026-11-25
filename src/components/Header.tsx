@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Logo from './Logo';
@@ -25,7 +25,33 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
+
+  const handleMouseEnter = (id: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setOpenDropdown(id);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 220); // 220ms grace period so moving cursor diagonally won't close it
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -139,15 +165,21 @@ export default function Header() {
                   <div
                     key={item.id}
                     className="relative group"
-                    onMouseEnter={() => setOpenDropdown(item.id)}
-                    onMouseLeave={() => setOpenDropdown(null)}
+                    onMouseEnter={() => handleMouseEnter(item.id)}
+                    onMouseLeave={handleMouseLeave}
                   >
                     <button
+                      type="button"
+                      onClick={() => {
+                        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+                        setOpenDropdown(isOpen ? null : item.id);
+                      }}
                       className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors ${
                         isOpen
                           ? 'text-[#1D4ED8] bg-blue-50'
                           : 'text-[#0F2547] hover:text-[#1D4ED8] hover:bg-slate-50'
                       }`}
+                      aria-expanded={isOpen}
                     >
                       <span>{item.label}</span>
                       <ChevronDown
@@ -157,32 +189,39 @@ export default function Header() {
                       />
                     </button>
 
-                    {/* Dropdown Menu */}
+                    {/* Dropdown Menu with Seamless Hover Bridge */}
                     {isOpen && (
-                      <div className="absolute top-full left-0 w-80 bg-white rounded-2xl shadow-xl border border-slate-100 p-2.5 mt-1 transition-all animate-in fade-in slide-in-from-top-2 duration-200">
-                        <div className="space-y-1">
-                          {item.children.map((child) => {
-                            const IconComponent = child.icon;
-                            return (
-                              <Link
-                                key={child.href}
-                                href={child.href}
-                                className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-blue-50/80 group/item transition-colors"
-                              >
-                                <div className="p-2 rounded-lg bg-blue-100 text-[#1D4ED8] group-hover/item:bg-[#1D4ED8] group-hover/item:text-white transition-colors">
-                                  <IconComponent className="w-4 h-4" />
-                                </div>
-                                <div>
-                                  <div className="text-sm font-bold text-[#0F2547] group-hover/item:text-[#1D4ED8] transition-colors">
-                                    {child.label}
+                      <div
+                        className="absolute top-full left-0 pt-2 w-80 z-50 animate-in fade-in slide-in-from-top-1 duration-150 before:absolute before:-top-3 before:left-0 before:w-full before:h-3 before:content-['']"
+                        onMouseEnter={() => handleMouseEnter(item.id)}
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-2.5">
+                          <div className="space-y-1">
+                            {item.children.map((child) => {
+                              const IconComponent = child.icon;
+                              return (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  onClick={() => setOpenDropdown(null)}
+                                  className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-blue-50/80 group/item transition-colors"
+                                >
+                                  <div className="p-2 rounded-lg bg-blue-100 text-[#1D4ED8] group-hover/item:bg-[#1D4ED8] group-hover/item:text-white transition-colors">
+                                    <IconComponent className="w-4 h-4" />
                                   </div>
-                                  <div className="text-xs text-slate-500 mt-0.5 line-clamp-1">
-                                    {child.desc}
+                                  <div>
+                                    <div className="text-sm font-bold text-[#0F2547] group-hover/item:text-[#1D4ED8] transition-colors">
+                                      {child.label}
+                                    </div>
+                                    <div className="text-xs text-slate-500 mt-0.5 line-clamp-1">
+                                      {child.desc}
+                                    </div>
                                   </div>
-                                </div>
-                              </Link>
-                            );
-                          })}
+                                </Link>
+                              );
+                            })}
+                          </div>
                         </div>
                       </div>
                     )}
