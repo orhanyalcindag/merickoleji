@@ -70,102 +70,104 @@ export default async function HomePage() {
       </section>
 
       {/* 2. HERO / INSTITUTIONAL PRESENTATION */}
-      <section className="relative bg-gradient-to-br from-[#0A1930] via-[#0F2547] to-[#1D4ED8] text-white overflow-hidden py-16 sm:py-20 rounded-3xl mx-4 sm:mx-6 max-w-7xl lg:mx-auto">
-        {/* Background Graphic Accents */}
-        <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="relative bg-gradient-to-br from-[#0A1930] via-[#0F2547] to-[#1D4ED8] text-white overflow-hidden py-16 sm:py-20 rounded-3xl shadow-xl">
+          {/* Background Graphic Accents */}
+          <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+          <div className="absolute -top-32 -right-32 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="px-6 sm:px-12 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left Content (7 cols) */}
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              {/* Highlight badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs sm:text-sm font-semibold text-amber-300">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <span>2027-2028 Erken Kayıt Fırsatları & Başarı Bursları Başladı</span>
-              </div>
-
-              {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-serif tracking-tight leading-tight sm:leading-none">
-                Geleceğin İçin <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-200">
-                  Geleceğin Yer!
-                </span>
-              </h1>
-
-              {/* Description */}
-              <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed font-light">
-                Meriç Eğitim Kurumları; Anaokulundan Anadolu Lisesine, OKULİSTİK ve EYSİS destekli modern eğitim modellerimiz, köklü kurs merkezlerimiz ve seçkin öğretmen kadromuzla Trakya&apos;nın eğitim meşalesidir.
-              </p>
-
-              {/* Feature Checkpoints */}
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-xs sm:text-sm text-slate-200 font-medium pt-1">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                  <span>3 Büyük Kampüs & 2 Kurs Merkezi</span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                  <span>OKULİSTİK & EYSİS Entegrasyonu</span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                  <span>Cambridge Çift Dilli Müfredat</span>
-                </span>
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3">
-                <Link
-                  href="/on-kayit"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-black text-sm sm:text-base text-[#0F2547] bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 hover:from-amber-300 hover:to-amber-400 shadow-xl shadow-amber-400/25 hover:-translate-y-1 transition-all duration-200"
-                >
-                  <Calendar className="w-5 h-5" />
-                  <span>Ön Kayıt / Randevu Al</span>
-                </Link>
-
-                <a
-                  href="#duyurular"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl font-bold text-sm sm:text-base text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-xs hover:-translate-y-1 transition-all duration-200"
-                >
-                  <Building2 className="w-5 h-5 text-amber-400" />
-                  <span>Duyuruları ve Kampüsleri Gör</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Right Visual (5 cols) with AI Generated Campus Image */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-md bg-gradient-to-b from-white/15 to-white/5 p-3 rounded-3xl backdrop-blur-md border border-white/20 shadow-2xl">
-                <div className="relative rounded-2xl overflow-hidden shadow-inner h-80 sm:h-96 bg-slate-900">
-                  <img
-                    src="/images/hero-campus.jpg"
-                    alt="Meriç Koleji Kampüsü"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A1930] via-transparent to-transparent"></div>
-
-                  {/* Floating Stat Badge */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl text-slate-800 flex items-center justify-between">
-                    <div>
-                      <div className="text-xs font-bold text-slate-400 uppercase tracking-wide">
-                        LGS & YKS Başarı Oranı
-                      </div>
-                      <div className="text-2xl font-black text-[#0F2547]">
-                        %98.4 Yerleştirme
-                      </div>
-                    </div>
-                    <div className="w-12 h-12 rounded-xl bg-amber-400 flex items-center justify-center text-[#0F2547] font-black text-xl">
-                      <Award className="w-6 h-6" />
-                    </div>
-                  </div>
+          <div className="px-6 sm:px-12 relative z-10 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              {/* Left Content (7 cols) */}
+              <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+                {/* Highlight badge */}
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs sm:text-sm font-semibold text-amber-300">
+                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <span>2027-2028 Erken Kayıt Fırsatları & Başarı Bursları Başladı</span>
                 </div>
 
-                {/* Second floating mini-badge */}
-                <div className="absolute -top-3 -left-3 bg-[#0F2547] text-white px-3.5 py-1.5 rounded-xl border border-amber-400/50 shadow-lg text-xs font-bold flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                  <span>Trakya&apos;nın En Güçlü Kadrosu</span>
+                {/* Main Headline */}
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold font-serif tracking-tight leading-tight sm:leading-none">
+                  Geleceğin İçin <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-200">
+                    Geleceğin Yer!
+                  </span>
+                </h1>
+
+                {/* Description */}
+                <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed font-light">
+                  Meriç Eğitim Kurumları; Anaokulundan Anadolu Lisesine, OKULİSTİK ve EYSİS destekli modern eğitim modellerimiz, köklü kurs merkezlerimiz ve seçkin öğretmen kadromuzla Trakya&apos;nın eğitim meşalesidir.
+                </p>
+
+                {/* Feature Checkpoints */}
+                <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-xs sm:text-sm text-slate-200 font-medium pt-1">
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <span>3 Büyük Kampüs & 2 Kurs Merkezi</span>
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <span>OKULİSTİK & EYSİS Entegrasyonu</span>
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                    <span>Cambridge Çift Dilli Müfredat</span>
+                  </span>
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3">
+                  <Link
+                    href="/on-kayit"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-black text-sm sm:text-base text-[#0F2547] bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 hover:from-amber-300 hover:to-amber-400 shadow-xl shadow-amber-400/25 hover:-translate-y-1 transition-all duration-200"
+                  >
+                    <Calendar className="w-5 h-5" />
+                    <span>Ön Kayıt / Randevu Al</span>
+                  </Link>
+
+                  <a
+                    href="#duyurular"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl font-bold text-sm sm:text-base text-white bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-xs hover:-translate-y-1 transition-all duration-200"
+                  >
+                    <Building2 className="w-5 h-5 text-amber-400" />
+                    <span>Duyuruları ve Kampüsleri Gör</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Right Visual (5 cols) with AI Generated Campus Image */}
+              <div className="lg:col-span-5 relative">
+                <div className="relative mx-auto max-w-md bg-gradient-to-b from-white/15 to-white/5 p-3 rounded-3xl backdrop-blur-md border border-white/20 shadow-2xl">
+                  <div className="relative rounded-2xl overflow-hidden shadow-inner h-80 sm:h-96 bg-slate-900">
+                    <img
+                      src="/images/hero-campus.jpg"
+                      alt="Meriç Koleji Kampüsü"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A1930] via-transparent to-transparent"></div>
+
+                    {/* Floating Stat Badge */}
+                    <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl text-slate-800 flex items-center justify-between">
+                      <div>
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-wide">
+                          LGS & YKS Başarı Oranı
+                        </div>
+                        <div className="text-2xl font-black text-[#0F2547]">
+                          %98.4 Yerleştirme
+                        </div>
+                      </div>
+                      <div className="w-12 h-12 rounded-xl bg-amber-400 flex items-center justify-center text-[#0F2547] font-black text-xl">
+                        <Award className="w-6 h-6" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Second floating mini-badge */}
+                  <div className="absolute -top-3 -left-3 bg-[#0F2547] text-white px-3.5 py-1.5 rounded-xl border border-amber-400/50 shadow-lg text-xs font-bold flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>Trakya&apos;nın En Güçlü Kadrosu</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -451,59 +453,61 @@ export default async function HomePage() {
       </section>
 
       {/* 7. WHY MERİÇ (EĞİTİMDE MERİÇ FARKI) */}
-      <section className="bg-gradient-to-br from-[#0F2547] to-[#0A1930] text-white py-20 rounded-3xl mx-4 sm:mx-6 max-w-7xl lg:mx-auto px-6 sm:px-12">
-        <div className="space-y-12">
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-amber-400">
-              Neden Meriç Eğitim Kurumları?
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold font-serif">
-              Trakya&apos;nın En Prestijli Eğitim Standartları
-            </h2>
-            <p className="text-sm text-slate-300 font-light">
-              Öğrencilerimizi sadece sınavlara değil; hayat boyu öğrenen, sorgulayan, yabancı dilde akıcı ve erdemli dünya vatandaşları olarak hayata hazırlıyoruz.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-xs space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-amber-400 text-[#0F2547] flex items-center justify-center font-bold">
-                <BookOpen className="w-6 h-6" />
-              </div>
-              <h4 className="text-base font-extrabold text-white">OKULİSTİK & EYSİS Takibi</h4>
-              <p className="text-xs text-slate-300 leading-relaxed font-light">
-                Öğrenci başarısını şansa bırakmıyoruz. Dijital veri analitiğiyle her öğrencinin gelişim haritasını haftalık çıkarıyoruz.
+      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="bg-gradient-to-br from-[#0F2547] to-[#0A1930] text-white py-16 sm:py-20 rounded-3xl px-6 sm:px-12 shadow-xl">
+          <div className="space-y-12">
+            <div className="text-center space-y-3 max-w-2xl mx-auto">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-amber-400">
+                Neden Meriç Eğitim Kurumları?
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold font-serif">
+                Trakya&apos;nın En Prestijli Eğitim Standartları
+              </h2>
+              <p className="text-sm text-slate-300 font-light">
+                Öğrencilerimizi sadece sınavlara değil; hayat boyu öğrenen, sorgulayan, yabancı dilde akıcı ve erdemli dünya vatandaşları olarak hayata hazırlıyoruz.
               </p>
             </div>
 
-            <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-xs space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-[#1D4ED8] text-white flex items-center justify-center font-bold">
-                <Sparkles className="w-6 h-6" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-xs space-y-3">
+                <div className="w-12 h-12 rounded-xl bg-amber-400 text-[#0F2547] flex items-center justify-center font-bold">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                <h4 className="text-base font-extrabold text-white">OKULİSTİK & EYSİS Takibi</h4>
+                <p className="text-xs text-slate-300 leading-relaxed font-light">
+                  Öğrenci başarısını şansa bırakmıyoruz. Dijital veri analitiğiyle her öğrencinin gelişim haritasını haftalık çıkarıyoruz.
+                </p>
               </div>
-              <h4 className="text-base font-extrabold text-white">Cambridge & CEFR Dili</h4>
-              <p className="text-xs text-slate-300 leading-relaxed font-light">
-                Avrupa Ortak Dil Çerçevesi standartlarında, anadili İngilizce olan öğretmenler eşliğinde akıcı konuşma ve uluslararası sertifikasyon.
-              </p>
-            </div>
 
-            <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-xs space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-purple-500 text-white flex items-center justify-center font-bold">
-                <Users className="w-6 h-6" />
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-xs space-y-3">
+                <div className="w-12 h-12 rounded-xl bg-[#1D4ED8] text-white flex items-center justify-center font-bold">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <h4 className="text-base font-extrabold text-white">Cambridge & CEFR Dili</h4>
+                <p className="text-xs text-slate-300 leading-relaxed font-light">
+                  Avrupa Ortak Dil Çerçevesi standartlarında, anadili İngilizce olan öğretmenler eşliğinde akıcı konuşma ve uluslararası sertifikasyon.
+                </p>
               </div>
-              <h4 className="text-base font-extrabold text-white">Birebir Koçluk & PDR</h4>
-              <p className="text-xs text-slate-300 leading-relaxed font-light">
-                Her öğrencinin kendine özel bir mentoru vardır. Sınav kaygısı, hedef belirleme ve kariyer planlaması uzman rehberlikle yürütülür.
-              </p>
-            </div>
 
-            <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-xs space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold">
-                <Award className="w-6 h-6" />
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-xs space-y-3">
+                <div className="w-12 h-12 rounded-xl bg-purple-500 text-white flex items-center justify-center font-bold">
+                  <Users className="w-6 h-6" />
+                </div>
+                <h4 className="text-base font-extrabold text-white">Birebir Koçluk & PDR</h4>
+                <p className="text-xs text-slate-300 leading-relaxed font-light">
+                  Her öğrencinin kendine özel bir mentoru vardır. Sınav kaygısı, hedef belirleme ve kariyer planlaması uzman rehberlikle yürütülür.
+                </p>
               </div>
-              <h4 className="text-base font-extrabold text-white">LGS & YKS Şampiyonlukları</h4>
-              <p className="text-xs text-slate-300 leading-relaxed font-light">
-                Bölgenin en köklü kurs merkezi birikimimiz ve seçkin deneme sınavı maratonlarımızla Türkiye derecelerine ulaşıyoruz.
-              </p>
+
+              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 backdrop-blur-xs space-y-3">
+                <div className="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold">
+                  <Award className="w-6 h-6" />
+                </div>
+                <h4 className="text-base font-extrabold text-white">LGS & YKS Şampiyonlukları</h4>
+                <p className="text-xs text-slate-300 leading-relaxed font-light">
+                  Bölgenin en köklü kurs merkezi birikimimiz ve seçkin deneme sınavı maratonlarımızla Türkiye derecelerine ulaşıyoruz.
+                </p>
+              </div>
             </div>
           </div>
         </div>
