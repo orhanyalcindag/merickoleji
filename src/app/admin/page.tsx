@@ -24,6 +24,15 @@ export default function AdminDashboardPage() {
   const [staff, setStaff] = useState<Staff[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const branchLabels: Record<string, string> = {
+    edirne: 'Edirne',
+    tekirdag: 'Tekirdağ',
+    kirklareli: 'Kırklareli',
+    'luleburgaz-kurs': 'Lüleburgaz Kurs',
+    'edirne-kurs': 'Edirne Kurs',
+    merkez: 'Merkez',
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -206,52 +215,64 @@ export default function AdminDashboardPage() {
         ) : applications.length === 0 ? (
           <div className="p-8 text-center text-xs text-slate-500">Henüz başvuru bulunmuyor.</div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-500 uppercase tracking-wider font-extrabold text-[10px] border-b border-slate-100">
-                <tr>
-                  <th className="py-3 px-4">Tarih</th>
-                  <th className="py-3 px-4">Veli Adı & İletişim</th>
-                  <th className="py-3 px-4">Öğrenci & Kademe</th>
-                  <th className="py-3 px-4">Şube</th>
-                  <th className="py-3 px-4">Veli Notu</th>
-                  <th className="py-3 px-4">Durum</th>
-                  <th className="py-3 px-4 text-right">Eylem</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {applications.slice(0, 6).map((app) => (
-                  <tr key={app.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3 px-4 font-mono text-slate-400 whitespace-nowrap">
-                      {app.created_at}
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="font-bold text-[#0F2547]">{app.parent_name}</div>
+          <>
+            {/* Mobile & Tablet Card View (< lg screens) */}
+            <div className="lg:hidden p-4 space-y-3.5">
+              {applications.slice(0, 6).map((app) => (
+                <div
+                  key={app.id}
+                  className="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/90 space-y-3 shadow-2xs"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="font-extrabold text-[#0F2547] text-sm">
+                        {app.parent_name}
+                      </div>
                       <a
                         href={`tel:${app.phone.replace(/\s+/g, '')}`}
-                        className="text-[#1D4ED8] hover:underline flex items-center gap-1 font-semibold"
+                        className="text-xs text-[#1D4ED8] font-bold flex items-center gap-1 mt-0.5 hover:underline"
                       >
-                        <Phone className="w-3 h-3" />
-                        {app.phone}
+                        <Phone className="w-3.5 h-3.5" />
+                        <span>{app.phone}</span>
                       </a>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="font-semibold text-slate-800">{app.student_name}</div>
-                      <div className="text-[11px] text-slate-500">{app.grade_level}</div>
-                    </td>
-                    <td className="py-3 px-4 whitespace-nowrap">
-                      <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-[#1D4ED8] uppercase">
-                        {app.branch_id}
+                    </div>
+                    <div className="text-right shrink-0">
+                      <span className="text-[10px] font-mono text-slate-400 block font-semibold">
+                        {app.created_at}
                       </span>
-                    </td>
-                    <td className="py-3 px-4 max-w-xs truncate text-slate-600">
-                      {app.notes || '-'}
-                    </td>
-                    <td className="py-3 px-4 whitespace-nowrap">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-100 text-[#1D4ED8] inline-block mt-1">
+                        {branchLabels[app.branch_id] || app.branch_id}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-2.5 rounded-xl border border-slate-100 flex items-center justify-between text-xs">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                        Öğrenci & Kademe
+                      </span>
+                      <span className="font-bold text-slate-800">{app.student_name}</span>
+                      <span className="text-slate-500 text-[11px] ml-1.5 font-medium">
+                        ({app.grade_level})
+                      </span>
+                    </div>
+                  </div>
+
+                  {app.notes && (
+                    <div className="text-xs text-slate-600 bg-amber-50/70 p-2.5 rounded-xl border border-amber-200/60">
+                      <span className="font-bold text-amber-900 text-[10px] uppercase block mb-0.5">
+                        Veli Notu:
+                      </span>
+                      {app.notes}
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between gap-2.5 pt-1">
+                    <div className="flex-1">
                       <select
                         value={app.status}
                         onChange={(e) => handleStatusChange(app.id, e.target.value)}
-                        className={`text-xs font-bold rounded-lg px-2.5 py-1 border transition-colors ${
+                        className={`w-full text-xs font-bold rounded-xl px-2.5 py-2 border transition-colors ${
                           app.status === 'bekliyor'
                             ? 'bg-amber-50 text-amber-800 border-amber-300'
                             : app.status === 'arandi'
@@ -266,21 +287,123 @@ export default function AdminDashboardPage() {
                         <option value="kayit-tamamlandi">Kayıt Yapıldı</option>
                         <option value="iptal">İptal Edildi</option>
                       </select>
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <a
-                        href={`tel:${app.phone.replace(/\s+/g, '')}`}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs"
-                      >
-                        <Phone className="w-3 h-3" />
-                        <span>Ara</span>
-                      </a>
-                    </td>
+                    </div>
+
+                    <a
+                      href={`tel:${app.phone.replace(/\s+/g, '')}`}
+                      className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs shadow-xs transition-colors shrink-0"
+                    >
+                      <Phone className="w-3.5 h-3.5" />
+                      <span>Ara</span>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View (lg+ screens) */}
+            <div className="hidden lg:block overflow-x-auto">
+              <table className="w-full text-left text-xs table-fixed">
+                <colgroup>
+                  <col className="w-[100px]" />
+                  <col className="w-[155px]" />
+                  <col className="w-[140px]" />
+                  <col className="w-[115px]" />
+                  <col className="w-auto" />
+                  <col className="w-[130px]" />
+                  <col className="w-[75px]" />
+                </colgroup>
+                <thead className="bg-slate-50 text-slate-500 uppercase tracking-wider font-extrabold text-[10px] border-b border-slate-100">
+                  <tr>
+                    <th className="py-3 px-3.5">Tarih</th>
+                    <th className="py-3 px-3.5">Veli & İletişim</th>
+                    <th className="py-3 px-3.5">Öğrenci & Kademe</th>
+                    <th className="py-3 px-3.5">Şube</th>
+                    <th className="py-3 px-3.5">Veli Notu</th>
+                    <th className="py-3 px-3.5">Durum</th>
+                    <th className="py-3 px-3.5 text-right">Eylem</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {applications.slice(0, 6).map((app) => (
+                    <tr key={app.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="py-3 px-3.5">
+                        <div className="font-mono text-[11px] font-semibold text-slate-600 leading-tight">
+                          {app.created_at.split(' ')[0]}
+                        </div>
+                        <div className="font-mono text-[10px] text-slate-400 mt-0.5">
+                          {app.created_at.split(' ')[1] || ''}
+                        </div>
+                      </td>
+                      <td className="py-3 px-3.5">
+                        <div className="font-bold text-[#0F2547] truncate" title={app.parent_name}>
+                          {app.parent_name}
+                        </div>
+                        <a
+                          href={`tel:${app.phone.replace(/\s+/g, '')}`}
+                          className="text-[#1D4ED8] hover:underline flex items-center gap-1 font-semibold text-[11px] mt-0.5 whitespace-nowrap"
+                        >
+                          <Phone className="w-2.5 h-2.5 shrink-0" />
+                          <span>{app.phone}</span>
+                        </a>
+                      </td>
+                      <td className="py-3 px-3.5">
+                        <div className="font-semibold text-slate-800 text-xs truncate" title={app.student_name}>
+                          {app.student_name}
+                        </div>
+                        <div className="text-[11px] text-slate-500 truncate mt-0.5" title={app.grade_level}>
+                          {app.grade_level}
+                        </div>
+                      </td>
+                      <td className="py-3 px-3.5">
+                        <span
+                          className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-[#1D4ED8] inline-block truncate max-w-full"
+                          title={branchLabels[app.branch_id] || app.branch_id}
+                        >
+                          {branchLabels[app.branch_id] || app.branch_id}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3.5 text-slate-600">
+                        <div className="truncate text-xs" title={app.notes || 'Not girilmedi'}>
+                          {app.notes || <span className="text-slate-300 italic">-</span>}
+                        </div>
+                      </td>
+                      <td className="py-3 px-3.5 whitespace-nowrap">
+                        <select
+                          value={app.status}
+                          onChange={(e) => handleStatusChange(app.id, e.target.value)}
+                          className={`w-full text-[11px] font-bold rounded-lg px-2 py-1.5 border transition-colors cursor-pointer ${
+                            app.status === 'bekliyor'
+                              ? 'bg-amber-50 text-amber-800 border-amber-300'
+                              : app.status === 'arandi'
+                              ? 'bg-blue-50 text-blue-800 border-blue-300'
+                              : app.status === 'kayit-tamamlandi'
+                              ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                              : 'bg-slate-100 text-slate-600 border-slate-300'
+                          }`}
+                        >
+                          <option value="bekliyor">Bekliyor</option>
+                          <option value="arandi">Arandı</option>
+                          <option value="kayit-tamamlandi">Kayıt Yapıldı</option>
+                          <option value="iptal">İptal Edildi</option>
+                        </select>
+                      </td>
+                      <td className="py-3 px-3.5 text-right whitespace-nowrap">
+                        <a
+                          href={`tel:${app.phone.replace(/\s+/g, '')}`}
+                          className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs shadow-xs transition-colors"
+                          title="Telefonla Ara"
+                        >
+                          <Phone className="w-3 h-3" />
+                          <span>Ara</span>
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 
