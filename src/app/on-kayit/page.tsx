@@ -113,7 +113,7 @@ function PreRegistrationContent() {
           <div className="bg-gradient-to-br from-[#0F2547] to-[#1D4ED8] rounded-3xl p-8 text-white space-y-6 shadow-xl relative overflow-hidden">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-xs font-semibold text-amber-300">
               <Sparkles className="w-4 h-4" />
-              <span>2025-2026 Erken Kayıt Dönemi</span>
+              <span>2027-2028 Erken Kayıt Dönemi</span>
             </div>
 
             <h1 className="text-3xl font-black font-serif leading-tight">

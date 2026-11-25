@@ -83,7 +83,7 @@ export default async function HomePage() {
               {/* Highlight badge */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs sm:text-sm font-semibold text-amber-300">
                 <Sparkles className="w-4 h-4 text-amber-400" />
-                <span>2025-2026 Erken Kayıt Fırsatları & Başarı Bursları Başladı</span>
+                <span>2027-2028 Erken Kayıt Fırsatları & Başarı Bursları Başladı</span>
               </div>
 
               {/* Main Headline */}

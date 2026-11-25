@@ -1592,13 +1592,13 @@ async function seedDatabase() {
   // Insert News & Announcements
   const newsList = [
     {
-      title: '2025-2026 Eğitim Öğretim Yılı Erken Kayıt ve Giriş Sınavı Başvuruları Başladı',
-      slug: '2025-2026-erken-kayit-donemi-basladi',
+      title: '2027-2028 Eğitim Öğretim Yılı Erken Kayıt ve Giriş Sınavı Başvuruları Başladı',
+      slug: '2027-2028-erken-kayit-donemi-basladi',
       type: 'duyuru',
       branch_id: 'all',
       image: '/images/hero-campus.jpg',
       summary: 'Geleceği şekillendiren eğitim yolculuğunda avantajlı erken kayıt imkanları ve başarı bursluluk sınavları tüm kampüslerimizde devam ediyor.',
-      content: `Meriç Eğitim Kurumları olarak 2025-2026 eğitim ve öğretim yılı için kapılarımızı geleceğin lider adaylarına açıyoruz. 
+      content: `Meriç Eğitim Kurumları olarak 2027-2028 eğitim ve öğretim yılı için kapılarımızı geleceğin lider adaylarına açıyoruz. 
       
 Anaokulundan Anadolu Lisesine uzanan kesintisiz eğitim zincirimizde, modern kampüslerimiz, OKULİSTİK ve EYSİS destekli öğrenme altyapımız ve uzman kadromuzla öğrencilerimizi geleceğe hazırlıyoruz.
 

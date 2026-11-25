@@ -105,7 +105,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             <span className="text-amber-300 font-medium flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              2025-2026 Erken Kayıt Dönemi Başladı
+              2027-2028 Erken Kayıt Dönemi Başladı
             </span>
             <div className="h-3 w-px bg-slate-700"></div>
             <Link
