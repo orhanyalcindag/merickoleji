@@ -1,97 +1,47 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
   <defs>
-    <linearGradient id="bgMale" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F1F5F9" />
-      <stop offset="100%" stop-color="#E2E8F0" />
-    </linearGradient>
-    <linearGradient id="suitGradMale" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0F2547" />
-      <stop offset="100%" stop-color="#0A1930" />
-    </linearGradient>
-    <linearGradient id="shirtGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF" />
-      <stop offset="100%" stop-color="#F8FAFC" />
-    </linearGradient>
-    <linearGradient id="tieGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F59E0B" />
-      <stop offset="100%" stop-color="#D97706" />
-    </linearGradient>
-    <linearGradient id="skinGradMale" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FCD34D" />
-      <stop offset="100%" stop-color="#FBBF24" />
-    </linearGradient>
-    <linearGradient id="hairGradMale" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1E293B" />
-      <stop offset="100%" stop-color="#0F172A" />
-    </linearGradient>
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.1" />
-    </filter>
+    <clipPath id="maleBadgeClip">
+      <circle cx="200" cy="200" r="172" />
+    </clipPath>
   </defs>
 
-  <!-- Background Canvas -->
-  <rect width="400" height="400" fill="url(#bgMale)" />
+  <!-- Base White Circle -->
+  <circle cx="200" cy="200" r="185" fill="#FFFFFF" />
 
-  <!-- Subtle Emblem Ring -->
-  <circle cx="200" cy="200" r="175" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="6 6" opacity="0.6" />
-  <circle cx="200" cy="200" r="160" fill="#FFFFFF" opacity="0.5" />
+  <!-- Avatar Elements clipped inside circle -->
+  <g clip-path="url(#maleBadgeClip)">
+    <!-- Shoulders and Teal Shirt -->
+    <path d="M 75 400 C 80 305, 120 258, 200 258 C 280 258, 320 305, 325 400 Z" fill="#3CACA2" />
 
-  <!-- Body / Suit -->
-  <g filter="url(#shadow)">
-    <!-- Shoulders & Suit Jacket -->
-    <path d="M 85 400 C 95 320, 130 280, 200 280 C 270 280, 305 320, 315 400 Z" fill="url(#suitGradMale)" />
+    <!-- Neck Base -->
+    <path d="M 172 258 Q 200 285 228 258 L 225 192 L 175 192 Z" fill="#E8C5A9" />
 
-    <!-- White Shirt Collar -->
-    <polygon points="200,340 160,270 240,270" fill="url(#shirtGrad)" />
-    <polygon points="160,270 185,295 198,270" fill="#E2E8F0" />
-    <polygon points="240,270 215,295 202,270" fill="#CBD5E1" />
+    <!-- Crew Neckline Trim -->
+    <path d="M 170 258 Q 200 286 230 258" stroke="#31988F" stroke-width="2.5" fill="none" />
 
-    <!-- Gold Institutional Tie -->
-    <polygon points="194,288 206,288 210,360 200,375 190,360" fill="url(#tieGrad)" />
-    <!-- Tie Knot -->
-    <polygon points="193,285 207,285 205,296 195,296" fill="#B45309" />
-
-    <!-- Suit Lapels -->
-    <path d="M 125 400 L 175 305 L 195 340 L 155 400 Z" fill="#1E3A8A" opacity="0.3" />
-    <path d="M 275 400 L 225 305 L 205 340 L 245 400 Z" fill="#0A1930" opacity="0.4" />
-  </g>
-
-  <!-- Neck -->
-  <rect x="182" y="225" width="36" height="55" rx="6" fill="#F59E0B" opacity="0.3" />
-  <rect x="185" y="220" width="30" height="50" rx="4" fill="url(#skinGradMale)" />
-
-  <!-- Head -->
-  <g filter="url(#shadow)">
-    <!-- Face -->
-    <ellipse cx="200" cy="180" rx="52" ry="60" fill="url(#skinGradMale)" />
+    <!-- Neck Shadow under chin -->
+    <path d="M 174 195 Q 200 220 226 195 Q 200 230 174 195 Z" fill="#DEB095" />
 
     <!-- Ears -->
-    <circle cx="147" cy="182" r="11" fill="url(#skinGradMale)" />
-    <circle cx="253" cy="182" r="11" fill="url(#skinGradMale)" />
+    <circle cx="145" cy="165" r="11" fill="#E8C5A9" />
+    <circle cx="255" cy="165" r="11" fill="#E8C5A9" />
 
-    <!-- Modern Neat Hair Cut -->
-    <path d="M 145 170 C 143 130, 160 110, 200 110 C 240 110, 257 130, 255 170 C 255 150, 240 126, 200 126 C 160 126, 146 150, 145 170 Z" fill="url(#hairGradMale)" />
-    <!-- Hair Volume Top & Side Part -->
-    <path d="M 144 165 C 144 125, 175 105, 215 105 C 248 105, 260 122, 258 155 C 253 138, 238 120, 208 120 C 172 120, 150 142, 144 165 Z" fill="url(#hairGradMale)" />
+    <!-- Face Base (Faceless Minimalist Silhouette) -->
+    <path d="M 152 142 C 150 186, 166 214, 200 214 C 234 214, 250 186, 248 142 C 248 100, 235 84, 200 84 C 165 84, 152 100, 152 142 Z" fill="#E8C5A9" />
+
+    <!-- Male Hair (Modern neat short haircut in flat soft black) -->
+    <!-- Back Volume / Sides -->
+    <path d="M 144 165 C 142 120, 160 80, 200 68 C 242 70, 258 120, 256 165 C 253 150, 248 135, 244 125 C 238 105, 222 92, 198 90 C 172 90, 158 105, 154 125 C 150 135, 147 150, 144 165 Z" fill="#2B282E" />
+    <!-- Hair Top & Side-part Volume -->
+    <path d="M 142 150 C 140 102, 165 65, 205 64 C 235 64, 258 84, 258 132 C 252 120, 244 102, 225 96 C 200 90, 168 96, 155 125 C 148 135, 145 142, 142 150 Z" fill="#2B282E" />
     <!-- Sideburns -->
-    <rect x="145" y="160" width="6" height="20" rx="2" fill="url(#hairGradMale)" />
-    <rect x="249" y="160" width="6" height="20" rx="2" fill="url(#hairGradMale)" />
-
-    <!-- Eyebrows -->
-    <path d="M 166 162 Q 178 157 190 162" stroke="#1E293B" stroke-width="4.5" stroke-linecap="round" fill="none" />
-    <path d="M 210 162 Q 222 157 234 162" stroke="#1E293B" stroke-width="4.5" stroke-linecap="round" fill="none" />
-
-    <!-- Eyes (Friendly curved) -->
-    <path d="M 170 176 Q 178 181 186 176" stroke="#1E293B" stroke-width="3" stroke-linecap="round" fill="none" />
-    <path d="M 214 176 Q 222 181 230 176" stroke="#1E293B" stroke-width="3" stroke-linecap="round" fill="none" />
-
-    <!-- Nose -->
-    <path d="M 200 178 L 198 193 Q 200 197 203 194" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" fill="none" />
-
-    <!-- Warm Smile -->
-    <path d="M 184 207 Q 200 220 216 207" stroke="#92400E" stroke-width="3" stroke-linecap="round" fill="none" />
+    <rect x="144" y="142" width="6" height="15" rx="2" fill="#2B282E" />
+    <rect x="250" y="142" width="6" height="15" rx="2" fill="#2B282E" />
   </g>
 
-  <!-- Small Teacher / School Lapel Pin -->
-  <circle cx="160" cy="340" r="5" fill="#F59E0B" stroke="#B45309" stroke-width="1.5" />
+  <!-- Inner Teal Ring -->
+  <circle cx="200" cy="200" r="172" fill="none" stroke="#3CACA2" stroke-width="4" />
+
+  <!-- Outer Coral Ring -->
+  <circle cx="200" cy="200" r="185" fill="none" stroke="#DA5547" stroke-width="12" />
 </svg>
