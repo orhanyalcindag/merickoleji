@@ -23,9 +23,11 @@ interface OrgChartProps {
   initialStaff: Staff[];
 }
 
-const getAvatarFallback = (name: string) => {
-  const initials = name.split(' ').map((n) => n[0]).slice(0, 2).join('');
-  return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%230F2547"/><text x="50%" y="54%" font-size="70" font-family="sans-serif" font-weight="bold" fill="%23F59E0B" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`;
+const getAvatarFallback = (staff: { name: string; gender?: string }) => {
+  if (staff.gender === 'erkek') return '/images/staff/default-male.svg';
+  if (staff.gender === 'kadin') return '/images/staff/default-female.svg';
+  // Fallback by common female letters or names if gender unset
+  return '/images/staff/default-female.svg';
 };
 
 export default function OrgChart({ branches, initialStaff }: OrgChartProps) {
@@ -308,7 +310,7 @@ export default function OrgChart({ branches, initialStaff }: OrgChartProps) {
                           alt={leader.name}
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = getAvatarFallback(leader.name);
+                            (e.target as HTMLImageElement).src = getAvatarFallback(leader);
                           }}
                         />
                       </div>
@@ -365,7 +367,7 @@ export default function OrgChart({ branches, initialStaff }: OrgChartProps) {
                           alt={admin.name}
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = getAvatarFallback(admin.name);
+                            (e.target as HTMLImageElement).src = getAvatarFallback(admin);
                           }}
                         />
                       </div>
@@ -416,7 +418,7 @@ export default function OrgChart({ branches, initialStaff }: OrgChartProps) {
                           alt={teacher.name}
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = getAvatarFallback(teacher.name);
+                            (e.target as HTMLImageElement).src = getAvatarFallback(teacher);
                           }}
                         />
                       </div>
@@ -465,7 +467,7 @@ export default function OrgChart({ branches, initialStaff }: OrgChartProps) {
                         alt={teacher.name}
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = getAvatarFallback(teacher.name);
+                          (e.target as HTMLImageElement).src = getAvatarFallback(teacher);
                         }}
                       />
                     </div>

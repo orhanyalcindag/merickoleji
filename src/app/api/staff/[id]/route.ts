@@ -17,16 +17,24 @@ export async function PUT(
       parent_id = null,
       subject = '',
       photo = '',
+      gender = 'kadin',
       bio = '',
       education = '',
       experience_years = 0,
       order_num = 0,
     } = body;
 
+    const resolvedPhoto =
+      photo && photo.trim() !== ''
+        ? photo
+        : gender === 'kadin'
+        ? '/images/staff/default-female.svg'
+        : '/images/staff/default-male.svg';
+
     await db.execute({
       sql: `UPDATE staff 
             SET branch_id = ?, name = ?, title = ?, hierarchy_level = ?, parent_id = ?, 
-                subject = ?, photo = ?, bio = ?, education = ?, experience_years = ?, order_num = ?
+                subject = ?, photo = ?, bio = ?, education = ?, experience_years = ?, order_num = ?, gender = ?
             WHERE id = ?`,
       args: [
         branch_id,
@@ -35,11 +43,12 @@ export async function PUT(
         Number(hierarchy_level),
         parent_id ? Number(parent_id) : null,
         subject,
-        photo,
+        resolvedPhoto,
         bio,
         education,
         Number(experience_years),
         Number(order_num),
+        gender,
         Number(id),
       ],
     });

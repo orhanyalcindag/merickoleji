@@ -45,6 +45,7 @@ export async function ensureDbInitialized() {
       parent_id INTEGER,
       subject TEXT NOT NULL,
       photo TEXT NOT NULL,
+      gender TEXT DEFAULT 'kadin',
       bio TEXT NOT NULL,
       education TEXT NOT NULL,
       experience_years INTEGER NOT NULL DEFAULT 5,
@@ -52,6 +53,12 @@ export async function ensureDbInitialized() {
       FOREIGN KEY (branch_id) REFERENCES branches(id)
     );
   `);
+
+  try {
+    await db.execute("ALTER TABLE staff ADD COLUMN gender TEXT DEFAULT 'kadin'");
+  } catch {
+    // Column already exists
+  }
 
   await db.execute(`
     CREATE TABLE IF NOT EXISTS news_announcements (
@@ -1570,9 +1577,45 @@ async function seedDatabase() {
   ];
 
   for (const s of staffList) {
+    const isMale =
+      s.name.includes('Lokman') ||
+      s.name.includes('Nazif') ||
+      s.name.includes('Çağlayan') ||
+      s.name.includes('Ercan') ||
+      s.name.includes('Fatih') ||
+      s.name.includes('Etem') ||
+      s.name.includes('Rıdvan') ||
+      s.name.includes('Abdullah') ||
+      s.name.includes('Ömer') ||
+      s.name.includes('Mertcan') ||
+      s.name.includes('Özgür') ||
+      s.name.includes('Mehmet') ||
+      s.name.includes('Bartu') ||
+      s.name.includes('Bilal') ||
+      s.name.includes('Arkın') ||
+      s.name.includes('Bülent') ||
+      s.name.includes('Çağlar') ||
+      s.name.includes('Tural') ||
+      s.name.includes('Yunus') ||
+      s.name.includes('Ahmet') ||
+      s.name.includes('Bilge Emir') ||
+      s.name.includes('Murat') ||
+      s.name.includes('Deniz Aydın') ||
+      s.name.includes('Caner') ||
+      s.name.includes('Volkan') ||
+      s.name.includes('Serkan') ||
+      s.name.includes('Ali Rıza') ||
+      s.name.includes('Hakan');
+    const gender = isMale ? 'erkek' : 'kadin';
+    const photo = s.photo.includes('lokman-turut')
+      ? s.photo
+      : isMale
+      ? '/images/staff/default-male.svg'
+      : '/images/staff/default-female.svg';
+
     await db.execute({
-      sql: `INSERT INTO staff (branch_id, name, title, hierarchy_level, parent_id, subject, photo, bio, education, experience_years, order_num)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      sql: `INSERT INTO staff (branch_id, name, title, hierarchy_level, parent_id, subject, photo, bio, education, experience_years, order_num, gender)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [
         s.branch_id,
         s.name,
@@ -1580,11 +1623,12 @@ async function seedDatabase() {
         s.hierarchy_level,
         s.parent_id,
         s.subject,
-        s.photo,
+        photo,
         s.bio,
         s.education,
         s.experience_years,
         s.order_num,
+        gender,
       ],
     });
   }

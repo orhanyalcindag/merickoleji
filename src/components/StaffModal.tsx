@@ -84,12 +84,14 @@ export default function StaffModal({ staff, branchName, onClose }: StaffModalPro
             {/* Photo */}
             <div className="relative w-32 h-32 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100 flex-shrink-0">
               <img
-                src={staff.photo}
+                src={staff.photo || (staff.gender === 'erkek' ? '/images/staff/default-male.svg' : '/images/staff/default-female.svg')}
                 alt={staff.name}
                 className="w-full h-full object-cover object-center"
                 onError={(e) => {
-                  const initials = staff.name.split(' ').map(n => n[0]).slice(0, 2).join('');
-                  (e.target as HTMLImageElement).src = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="%230F2547"/><text x="50%" y="54%" font-size="70" font-family="sans-serif" font-weight="bold" fill="%23F59E0B" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`;
+                  (e.target as HTMLImageElement).src =
+                    staff.gender === 'erkek'
+                      ? '/images/staff/default-male.svg'
+                      : '/images/staff/default-female.svg';
                 }}
               />
             </div>

@@ -20,6 +20,7 @@ export interface Staff {
   parent_id?: number | null;
   subject: string;
   photo: string;
+  gender?: 'erkek' | 'kadin';
   bio: string;
   education: string;
   experience_years: number;

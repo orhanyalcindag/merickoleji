@@ -37,6 +37,7 @@ export default function AdminKadroPage() {
     parent_id: '' as string | number,
     subject: '',
     photo: '',
+    gender: 'kadin' as 'erkek' | 'kadin',
     bio: '',
     education: '',
     experience_years: 5,
@@ -73,7 +74,8 @@ export default function AdminKadroPage() {
       hierarchy_level: 3,
       parent_id: '',
       subject: 'Matematik',
-      photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
+      photo: '/images/staff/default-female.svg',
+      gender: 'kadin',
       bio: '',
       education: '',
       experience_years: 5,
@@ -91,7 +93,8 @@ export default function AdminKadroPage() {
       hierarchy_level: staff.hierarchy_level,
       parent_id: staff.parent_id || '',
       subject: staff.subject,
-      photo: staff.photo,
+      photo: staff.photo || '',
+      gender: (staff.gender as 'erkek' | 'kadin') || 'kadin',
       bio: staff.bio,
       education: staff.education,
       experience_years: staff.experience_years,
@@ -233,12 +236,21 @@ export default function AdminKadroPage() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <img
-                        src={s.photo}
+                        src={s.photo || (s.gender === 'erkek' ? '/images/staff/default-male.svg' : '/images/staff/default-female.svg')}
                         alt={s.name}
-                        className="w-12 h-12 rounded-xl object-cover border border-slate-200 shrink-0"
+                        className="w-12 h-12 rounded-xl object-cover border border-slate-200 shrink-0 bg-slate-100"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            s.gender === 'erkek' ? '/images/staff/default-male.svg' : '/images/staff/default-female.svg';
+                        }}
                       />
                       <div>
-                        <div className="font-extrabold text-[#0F2547] text-sm">{s.name}</div>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="font-extrabold text-[#0F2547] text-sm">{s.name}</span>
+                          <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-md ${s.gender === 'erkek' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-pink-50 text-pink-700 border border-pink-200'}`}>
+                            {s.gender === 'erkek' ? '👨 Erkek' : '👩 Kadın'}
+                          </span>
+                        </div>
                         <div className="text-xs text-slate-500 font-medium">{s.title}</div>
                         <div className="text-[11px] text-[#1D4ED8] font-bold mt-0.5">{s.subject}</div>
                       </div>
@@ -307,13 +319,20 @@ export default function AdminKadroPage() {
                       <td className="py-3 px-3.5">
                         <div className="flex items-center gap-3">
                           <img
-                            src={s.photo}
+                            src={s.photo || (s.gender === 'erkek' ? '/images/staff/default-male.svg' : '/images/staff/default-female.svg')}
                             alt={s.name}
-                            className="w-10 h-10 rounded-xl object-cover border border-slate-200 shrink-0"
+                            className="w-10 h-10 rounded-xl object-cover border border-slate-200 shrink-0 bg-slate-100"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src =
+                                s.gender === 'erkek' ? '/images/staff/default-male.svg' : '/images/staff/default-female.svg';
+                            }}
                           />
                           <div className="min-w-0">
-                            <div className="font-extrabold text-[#0F2547] text-sm truncate" title={s.name}>
-                              {s.name}
+                            <div className="font-extrabold text-[#0F2547] text-sm truncate flex items-center gap-1.5" title={s.name}>
+                              <span className="truncate">{s.name}</span>
+                              <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded shrink-0 ${s.gender === 'erkek' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-pink-50 text-pink-700 border border-pink-200'}`}>
+                                {s.gender === 'erkek' ? '👨 Erkek' : '👩 Kadın'}
+                              </span>
                             </div>
                             <div className="text-[11px] text-slate-400 truncate" title={s.title}>
                               {s.title}
@@ -480,28 +499,143 @@ export default function AdminKadroPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="block font-bold text-slate-700 mb-1">Fotoğraf URL</label>
-                <input
-                  type="url"
-                  placeholder="https://..."
-                  value={formData.photo}
-                  onChange={(e) => setFormData({ ...formData, photo: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300"
-                />
-                {formData.photo && (
-                  <div className="flex items-center gap-3 p-2 bg-slate-50 rounded-xl border border-slate-200 mt-2">
-                    <img
-                      src={formData.photo}
-                      alt="Önizleme"
-                      className="w-10 h-10 rounded-lg object-cover border border-slate-300 shrink-0"
-                    />
-                    <div className="text-[11px] text-slate-500">
-                      <span className="font-bold text-slate-700 block">Fotoğraf Önizleme</span>
-                      Görsel başarıyla yüklendi.
+              {/* Cinsiyet & Profil Logosu (Resmi Olmayanlar İçin) */}
+              <div className="p-4 bg-slate-50/90 rounded-2xl border border-slate-200/90 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <label className="block font-extrabold text-slate-800">
+                    Cinsiyet & Profil Logosu *
+                  </label>
+                  <span className="text-[11px] text-slate-500 font-medium">
+                    Resmi olmayanlar için kurumsal profil logosu gösterilir
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newGender = 'kadin';
+                      const isDefaultPhoto =
+                        !formData.photo ||
+                        formData.photo.includes('default-male') ||
+                        formData.photo.includes('default-female');
+                      setFormData({
+                        ...formData,
+                        gender: newGender,
+                        photo: isDefaultPhoto ? '/images/staff/default-female.svg' : formData.photo,
+                      });
+                    }}
+                    className={`flex items-center justify-center gap-2 p-2.5 rounded-xl border text-xs font-extrabold transition-all ${
+                      formData.gender === 'kadin'
+                        ? 'border-pink-400 bg-pink-50 text-pink-700 shadow-xs ring-2 ring-pink-300'
+                        : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span className="text-base">👩</span>
+                    <span>Kadın (Bayan Profil Logosu)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newGender = 'erkek';
+                      const isDefaultPhoto =
+                        !formData.photo ||
+                        formData.photo.includes('default-male') ||
+                        formData.photo.includes('default-female');
+                      setFormData({
+                        ...formData,
+                        gender: newGender,
+                        photo: isDefaultPhoto ? '/images/staff/default-male.svg' : formData.photo,
+                      });
+                    }}
+                    className={`flex items-center justify-center gap-2 p-2.5 rounded-xl border text-xs font-extrabold transition-all ${
+                      formData.gender === 'erkek'
+                        ? 'border-blue-400 bg-blue-50 text-blue-700 shadow-xs ring-2 ring-blue-300'
+                        : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    <span className="text-base">👨</span>
+                    <span>Erkek (Erkek Profil Logosu)</span>
+                  </button>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block font-bold text-slate-700">Fotoğraf URL (İsteğe Bağlı)</label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setFormData({
+                            ...formData,
+                            photo:
+                              formData.gender === 'erkek'
+                                ? '/images/staff/default-male.svg'
+                                : '/images/staff/default-female.svg',
+                          })
+                        }
+                        className="text-[11px] font-bold text-[#1D4ED8] hover:underline"
+                      >
+                        Kurumsal Logo Ata
+                      </button>
+                      <span className="text-slate-300">|</span>
+                      <button
+                        type="button"
+                        onClick={() => setFormData({ ...formData, photo: '' })}
+                        className="text-[11px] font-bold text-slate-500 hover:text-red-500"
+                      >
+                        Temizle
+                      </button>
                     </div>
                   </div>
-                )}
+                  <input
+                    type="text"
+                    placeholder="Örn: https://... veya boş bırakabilirsiniz"
+                    value={formData.photo}
+                    onChange={(e) => setFormData({ ...formData, photo: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white"
+                  />
+                </div>
+
+                {/* Live Preview */}
+                <div className="flex items-center gap-3 p-2.5 bg-white rounded-xl border border-slate-200 shadow-2xs">
+                  <img
+                    src={
+                      formData.photo && formData.photo.trim() !== ''
+                        ? formData.photo
+                        : formData.gender === 'erkek'
+                        ? '/images/staff/default-male.svg'
+                        : '/images/staff/default-female.svg'
+                    }
+                    alt="Önizleme"
+                    className="w-12 h-12 rounded-xl object-cover border border-slate-200 shrink-0 bg-slate-50"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        formData.gender === 'erkek'
+                          ? '/images/staff/default-male.svg'
+                          : '/images/staff/default-female.svg';
+                    }}
+                  />
+                  <div className="text-[11px] min-w-0">
+                    <span className="font-extrabold text-[#0F2547] block">
+                      {formData.photo &&
+                      !formData.photo.includes('default-male') &&
+                      !formData.photo.includes('default-female')
+                        ? 'Özel Yüklenen Fotoğraf'
+                        : formData.gender === 'erkek'
+                        ? 'Kurumsal Erkek Profil Logosu Aktif'
+                        : 'Kurumsal Bayan Profil Logosu Aktif'}
+                    </span>
+                    <span className="text-slate-500 block truncate">
+                      {formData.photo &&
+                      !formData.photo.includes('default-male') &&
+                      !formData.photo.includes('default-female')
+                        ? formData.photo
+                        : 'Resmi olmayan / fotoğrafsız kadro üyesi için bu logo görüntülenecektir.'}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

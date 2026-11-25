@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
       parent_id = null,
       subject = '',
       photo = '',
+      gender = 'kadin',
       bio = '',
       education = '',
       experience_years = 0,
@@ -47,11 +48,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Ad, unvan ve şube alanları zorunludur' }, { status: 400 });
     }
 
-    const defaultPhoto = photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80';
+    const defaultPhoto =
+      photo && photo.trim() !== ''
+        ? photo
+        : gender === 'kadin'
+        ? '/images/staff/default-female.svg'
+        : '/images/staff/default-male.svg';
 
     const result = await db.execute({
-      sql: `INSERT INTO staff (branch_id, name, title, hierarchy_level, parent_id, subject, photo, bio, education, experience_years, order_num)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      sql: `INSERT INTO staff (branch_id, name, title, hierarchy_level, parent_id, subject, photo, bio, education, experience_years, order_num, gender)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       args: [
         branch_id,
         name,
@@ -64,6 +70,7 @@ export async function POST(request: NextRequest) {
         education,
         Number(experience_years),
         Number(order_num),
+        gender,
       ],
     });
 
