@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Application, NewsItem, Staff } from '@/lib/types';
+import { Application, Branch, NewsItem, Staff } from '@/lib/types';
 import {
   Inbox,
   Users,
@@ -22,6 +22,7 @@ export default function AdminDashboardPage() {
   const [applications, setApplications] = useState<Application[]>([]);
   const [news, setNews] = useState<NewsItem[]>([]);
   const [staff, setStaff] = useState<Staff[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
 
   const branchLabels: Record<string, string> = {
@@ -30,27 +31,36 @@ export default function AdminDashboardPage() {
     kirklareli: 'Kırklareli',
     'luleburgaz-kurs': 'Lüleburgaz Kurs',
     'edirne-kurs': 'Edirne Kurs',
+    'tekirdag-kurs': 'Tekirdağ Kurs',
+    'genel-mudurluk': 'Genel Müdürlük',
     merkez: 'Merkez',
+  };
+
+  const getBranchName = (id: string) => {
+    return branches.find((b) => b.id === id)?.name || branchLabels[id] || id;
   };
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const [appRes, newsRes, staffRes] = await Promise.all([
+      const [appRes, newsRes, staffRes, branchRes] = await Promise.all([
         fetch('/api/applications'),
         fetch('/api/news?all=true'),
         fetch('/api/staff'),
+        fetch('/api/branches'),
       ]);
 
-      const [appData, newsData, staffData] = await Promise.all([
+      const [appData, newsData, staffData, branchData] = await Promise.all([
         appRes.json(),
         newsRes.json(),
         staffRes.json(),
+        branchRes.json(),
       ]);
 
       if (Array.isArray(appData)) setApplications(appData);
       if (Array.isArray(newsData)) setNews(newsData);
       if (Array.isArray(staffData)) setStaff(staffData);
+      if (Array.isArray(branchData)) setBranches(branchData);
     } catch (err) {
       console.error(err);
     } finally {
@@ -176,7 +186,7 @@ export default function AdminDashboardPage() {
               Şubeler & Kampüsler
             </div>
             <div className="text-2xl font-black text-[#0F2547] mt-1">
-              6
+              {branches.length || 6}
             </div>
             <div className="text-[11px] font-semibold text-slate-500 mt-0.5">
               3 Kampüs + 2 Kurs + Merkez
@@ -241,7 +251,7 @@ export default function AdminDashboardPage() {
                         {app.created_at}
                       </span>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-100 text-[#1D4ED8] inline-block mt-1">
-                        {branchLabels[app.branch_id] || app.branch_id}
+                        {getBranchName(app.branch_id)}
                       </span>
                     </div>
                   </div>
@@ -358,9 +368,9 @@ export default function AdminDashboardPage() {
                       <td className="py-3 px-3.5">
                         <span
                           className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-blue-50 text-[#1D4ED8] inline-block truncate max-w-full"
-                          title={branchLabels[app.branch_id] || app.branch_id}
+                          title={getBranchName(app.branch_id)}
                         >
-                          {branchLabels[app.branch_id] || app.branch_id}
+                          {getBranchName(app.branch_id)}
                         </span>
                       </td>
                       <td className="py-3 px-3.5 text-slate-600">

@@ -4,7 +4,10 @@ export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json();
 
-    if (username === 'admin' && (password === 'meric2025' || password === 'admin123')) {
+    if (
+      username === 'admin' &&
+      (password === 'meric2025' || password === 'meric2026' || password === 'meric2027' || password === 'admin123')
+    ) {
       const response = NextResponse.json({ success: true, message: 'Giriş başarılı' });
       response.cookies.set({
         name: 'meric_admin_session',

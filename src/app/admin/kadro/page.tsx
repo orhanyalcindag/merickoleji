@@ -215,101 +215,183 @@ export default function AdminKadroPage() {
         </div>
       </div>
 
-      {/* Staff List Table */}
+      {/* Staff List Table & Cards */}
       <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden">
         {loading ? (
           <div className="p-12 text-center text-xs text-slate-400">Kadro yükleniyor...</div>
         ) : filteredStaff.length === 0 ? (
           <div className="p-12 text-center text-xs text-slate-500">Kadro kaydı bulunamadı.</div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-500 uppercase tracking-wider font-extrabold text-[10px] border-b border-slate-100">
-                <tr>
-                  <th className="py-3 px-4">Fotoğraf & Ad Soyad</th>
-                  <th className="py-3 px-4">Şube</th>
-                  <th className="py-3 px-4">Hiyerarşi Seviyesi</th>
-                  <th className="py-3 px-4">Unvan & Branş</th>
-                  <th className="py-3 px-4">Eğitim / Deneyim</th>
-                  <th className="py-3 px-4">Sıra</th>
-                  <th className="py-3 px-4 text-right">İşlemler</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {filteredStaff.map((s) => (
-                  <tr key={s.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={s.photo}
-                          alt={s.name}
-                          className="w-10 h-10 rounded-xl object-cover border border-slate-200"
-                        />
-                        <div>
-                          <div className="font-extrabold text-[#0F2547] text-sm">{s.name}</div>
-                          <div className="text-[11px] text-slate-400">{s.title}</div>
-                        </div>
+          <>
+            {/* Mobile & Tablet Card View (< lg screens) */}
+            <div className="lg:hidden p-4 space-y-3.5">
+              {filteredStaff.map((s) => (
+                <div
+                  key={s.id}
+                  className="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/90 space-y-3 shadow-2xs"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={s.photo}
+                        alt={s.name}
+                        className="w-12 h-12 rounded-xl object-cover border border-slate-200 shrink-0"
+                      />
+                      <div>
+                        <div className="font-extrabold text-[#0F2547] text-sm">{s.name}</div>
+                        <div className="text-xs text-slate-500 font-medium">{s.title}</div>
+                        <div className="text-[11px] text-[#1D4ED8] font-bold mt-0.5">{s.subject}</div>
                       </div>
-                    </td>
-                    <td className="py-3 px-4 whitespace-nowrap">
-                      <span className="font-bold text-[11px] px-2.5 py-0.5 rounded-md bg-blue-50 text-[#1D4ED8]">
-                        {branches.find((b) => b.id === s.branch_id)?.name || s.branch_id}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 whitespace-nowrap">
-                      {s.hierarchy_level === 1 && (
-                        <span className="inline-flex items-center gap-1 font-bold text-[11px] px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-300">
-                          <Crown className="w-3 h-3 text-amber-600" />
-                          <span>1: Üst Yönetim</span>
-                        </span>
+                    </div>
+                    <span className="font-bold text-[10px] px-2 py-0.5 rounded-md bg-blue-100 text-[#1D4ED8] shrink-0">
+                      {branches.find((b) => b.id === s.branch_id)?.name || s.branch_id}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-200/60">
+                    <div className="text-slate-500 min-w-0 pr-2">
+                      {s.education && (
+                        <div className="text-[11px] text-slate-600 truncate">{s.education}</div>
                       )}
-                      {s.hierarchy_level === 2 && (
-                        <span className="inline-flex items-center gap-1 font-bold text-[11px] px-2 py-0.5 rounded-md bg-blue-100 text-blue-900 border border-blue-300">
-                          <Shield className="w-3 h-3 text-blue-600" />
-                          <span>2: İdari / PDR</span>
-                        </span>
-                      )}
-                      {s.hierarchy_level === 3 && (
-                        <span className="inline-flex items-center gap-1 font-bold text-[11px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-800 border border-slate-300">
-                          <BookOpen className="w-3 h-3 text-slate-500" />
-                          <span>3: Öğretmen</span>
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="font-semibold text-slate-800">{s.subject}</div>
-                      <div className="text-[11px] text-slate-500 truncate max-w-xs">{s.bio}</div>
-                    </td>
-                    <td className="py-3 px-4 text-slate-600">
-                      <div>{s.education || '-'}</div>
-                      <div className="text-[10px] text-amber-600 font-bold">{s.experience_years}+ Yıl Deneyim</div>
-                    </td>
-                    <td className="py-3 px-4 font-mono font-bold text-slate-400">
-                      #{s.order_num}
-                    </td>
-                    <td className="py-3 px-4 text-right whitespace-nowrap">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <button
-                          onClick={() => openEditModal(s)}
-                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-[#1D4ED8] transition-colors"
-                          title="Düzenle"
-                        >
-                          <Pencil className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(s.id)}
-                          className="p-1.5 rounded-lg bg-slate-100 hover:bg-red-100 text-slate-600 hover:text-red-600 transition-colors"
-                          title="Sil"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
+                      <div className="text-[11px] font-semibold text-amber-700 mt-0.5">
+                        {s.experience_years}+ Yıl Deneyim • #{s.order_num}
                       </div>
-                    </td>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <button
+                        onClick={() => openEditModal(s)}
+                        className="p-2 rounded-xl bg-blue-50 text-[#1D4ED8] hover:bg-blue-100 transition-colors"
+                        title="Düzenle"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(s.id)}
+                        className="p-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                        title="Sil"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View (lg+ screens) */}
+            <div className="hidden lg:block overflow-x-auto">
+              <table className="w-full text-left text-xs table-fixed">
+                <colgroup>
+                  <col className="w-[200px]" />
+                  <col className="w-[125px]" />
+                  <col className="w-[125px]" />
+                  <col className="w-auto" />
+                  <col className="w-[140px]" />
+                  <col className="w-[60px]" />
+                  <col className="w-[80px]" />
+                </colgroup>
+                <thead className="bg-slate-50 text-slate-500 uppercase tracking-wider font-extrabold text-[10px] border-b border-slate-100">
+                  <tr>
+                    <th className="py-3 px-3.5">Fotoğraf & Ad Soyad</th>
+                    <th className="py-3 px-3.5">Şube</th>
+                    <th className="py-3 px-3.5">Hiyerarşi</th>
+                    <th className="py-3 px-3.5">Branş & Özgeçmiş</th>
+                    <th className="py-3 px-3.5">Eğitim / Deneyim</th>
+                    <th className="py-3 px-3.5">Sıra</th>
+                    <th className="py-3 px-3.5 text-right">İşlemler</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {filteredStaff.map((s) => (
+                    <tr key={s.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="py-3 px-3.5">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={s.photo}
+                            alt={s.name}
+                            className="w-10 h-10 rounded-xl object-cover border border-slate-200 shrink-0"
+                          />
+                          <div className="min-w-0">
+                            <div className="font-extrabold text-[#0F2547] text-sm truncate" title={s.name}>
+                              {s.name}
+                            </div>
+                            <div className="text-[11px] text-slate-400 truncate" title={s.title}>
+                              {s.title}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3 px-3.5">
+                        <span
+                          className="font-bold text-[10px] px-2 py-0.5 rounded-md bg-blue-50 text-[#1D4ED8] inline-block truncate max-w-full"
+                          title={branches.find((b) => b.id === s.branch_id)?.name || s.branch_id}
+                        >
+                          {branches.find((b) => b.id === s.branch_id)?.name || s.branch_id}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3.5 whitespace-nowrap">
+                        {s.hierarchy_level === 1 && (
+                          <span className="inline-flex items-center gap-1 font-bold text-[10px] px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-300">
+                            <Crown className="w-3 h-3 text-amber-600 shrink-0" />
+                            <span>1: Üst Yönetim</span>
+                          </span>
+                        )}
+                        {s.hierarchy_level === 2 && (
+                          <span className="inline-flex items-center gap-1 font-bold text-[10px] px-2 py-0.5 rounded-md bg-blue-100 text-blue-900 border border-blue-300">
+                            <Shield className="w-3 h-3 text-blue-600 shrink-0" />
+                            <span>2: İdari/PDR</span>
+                          </span>
+                        )}
+                        {s.hierarchy_level === 3 && (
+                          <span className="inline-flex items-center gap-1 font-bold text-[10px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-800 border border-slate-300">
+                            <BookOpen className="w-3 h-3 text-slate-500 shrink-0" />
+                            <span>3: Öğretmen</span>
+                          </span>
+                        )}
+                      </td>
+                      <td className="py-3 px-3.5 text-slate-600">
+                        <div className="font-semibold text-slate-800 text-xs truncate" title={s.subject}>
+                          {s.subject}
+                        </div>
+                        <div className="text-[11px] text-slate-400 truncate mt-0.5" title={s.bio}>
+                          {s.bio || '-'}
+                        </div>
+                      </td>
+                      <td className="py-3 px-3.5 text-slate-600">
+                        <div className="truncate text-xs" title={s.education || ''}>
+                          {s.education || '-'}
+                        </div>
+                        <div className="text-[10px] text-amber-600 font-bold mt-0.5">
+                          {s.experience_years}+ Yıl Deneyim
+                        </div>
+                      </td>
+                      <td className="py-3 px-3.5 font-mono font-bold text-slate-400">
+                        #{s.order_num}
+                      </td>
+                      <td className="py-3 px-3.5 text-right whitespace-nowrap">
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => openEditModal(s)}
+                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-blue-100 text-slate-600 hover:text-[#1D4ED8] transition-colors"
+                            title="Düzenle"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(s.id)}
+                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-red-100 text-slate-600 hover:text-red-600 transition-colors"
+                            title="Sil"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 
@@ -407,6 +489,19 @@ export default function AdminKadroPage() {
                   onChange={(e) => setFormData({ ...formData, photo: e.target.value })}
                   className="w-full px-3 py-2 rounded-xl border border-slate-300"
                 />
+                {formData.photo && (
+                  <div className="flex items-center gap-3 p-2 bg-slate-50 rounded-xl border border-slate-200 mt-2">
+                    <img
+                      src={formData.photo}
+                      alt="Önizleme"
+                      className="w-10 h-10 rounded-lg object-cover border border-slate-300 shrink-0"
+                    />
+                    <div className="text-[11px] text-slate-500">
+                      <span className="font-bold text-slate-700 block">Fotoğraf Önizleme</span>
+                      Görsel başarıyla yüklendi.
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
